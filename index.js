@@ -20,6 +20,7 @@ const allowedOrigins = [
   "http://localhost:3001",
   "http://localhost:4001",
   "http://localhost:4000",
+  "http://192.168.1.108:3000",
 ];
 
 //CORS policy access

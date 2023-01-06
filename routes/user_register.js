@@ -36,20 +36,37 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// update uniqueKey of user by getting user
-router.patch("/update/:id", async (req, res) => {
+//  update user by id from database
+router.patch("/update/user/:id", async (req, res) => {
   try {
     const user = await User_Schema.findById(req.params.id);
-    if (user == null) {
-      return res.status(404).json({ message: "user not found" });
+    if (req.body.name != null) {
+      user.name = req.body.name;
     }
-    if (req.body.uniqueKey != null) {
-      user.uniqueKey = req.body.uniqueKey;
+    if (req.body.username != null) {
+      user.username = req.body.username;
     }
+    if (req.body.phone != null) {
+      user.phone = req.body.phone;
+    }
+    if (req.body.address != null) {
+      user.address = req.body.address;
+    }
+
+    if (req.body.email != null) {
+      user.email = req.body.email;
+    }
+
+    if (req.body.country != null) {
+      user.country = req.body.country;
+    }
+
     const updatedUser = await user.save();
     res.json(updatedUser);
   } catch (error) {
-    res.status(500).json({ message: error.message, status: "error" });
+    res
+      .status(500)
+      .json({ message: "error in updating user", status: "error" });
   }
 });
 
@@ -68,8 +85,9 @@ router.post(
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
       for (var i = 0; i < length; i++)
-      text += (possible.charAt(Math.floor(Math.random() * possible.length))).toUpperCase();
-
+        text += possible
+          .charAt(Math.floor(Math.random() * possible.length))
+          .toUpperCase();
 
       return text;
     };
@@ -101,19 +119,33 @@ router.post(
     }
   }
 );
-// code to update password of user by getting user id from database
+
+// code to confirm old password with new password in node js and update hashed password in database using bcryptjs
 router.patch("/update/password/:id", async (req, res) => {
   try {
     const user = await User_Schema.findById(req.params.id);
     if (user == null) {
       return res.status(404).json({ message: "user not found" });
     }
-    if (req.body.password != null) {
-      // hashing password
-      const salt = await bcryptjs.genSalt();
-      const hashed_password = await bcryptjs.hash(req.body.password, salt);
-      user.password = hashed_password;
+    // check if old password is correct
+    const isMatch = await bcryptjs.compare(
+      req.body.old_password,
+
+      user.password
+    );
+    if (!isMatch) {
+      return res.status(400).json({ message: "old password is incorrect" });
     }
+    // code to match new password and confirm password
+    if (req.body.new_password != req.body.confirm_password) {
+      return res.status(400).json({ message: "password not matched" });
+    }
+
+    // code to hash a new password
+    const salt = await bcryptjs.genSalt();
+    const hashed_password = await bcryptjs.hash(req.body.new_password, salt);
+    user.password = hashed_password;
+    console.log(user.password);
     const updatedUser = await user.save();
     res.json(updatedUser);
   } catch (error) {
@@ -171,6 +203,17 @@ async function SignupValidation(req, res, next) {
         status: "error",
       });
   }
+
+  // password validation
+  const password = req.body.password;
+  const password_regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,20}$/;
+  if (!password_regex.test(password))
+    return res.status(400).json({
+      message: "Password is not valid",
+      status: "error",
+    });
+
+  // check if password and confirm password are same
 
   next();
 }

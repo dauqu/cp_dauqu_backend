@@ -44,6 +44,7 @@ router.post("/", async (req, res) => {
       city: req.body.city,
       country: req.body.country,
       order_status: req.body.order_status,
+      uniqueKey: req.body.uniqueKey,
     });
     const newOrder = await order.save();
     res.json(newOrder);
