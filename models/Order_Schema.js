@@ -31,7 +31,6 @@ const Order_Schema = new mongoose.Schema(
       type: String,
     },
 
-     
     product_slug: {
       type: String,
     },
@@ -48,6 +47,15 @@ const Order_Schema = new mongoose.Schema(
       type: String,
     },
     order_status: {
+      type: String,
+    },
+    plan_start_date: {
+      type: String,
+    },
+    plan_expiry_date: {
+      type: String,
+    },
+    plan_duration: {
       type: String,
     },
   },

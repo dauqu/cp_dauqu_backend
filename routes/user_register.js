@@ -107,10 +107,8 @@ router.post(
       // code to genereate unique key for user for 8 digit
       uniqueKey: randomString(15),
       image: url + "/medias/" + req.file.filename,
-
-      role: req.body.role,
     });
-
+    console.log(req.body);
     try {
       const newUser = await user.save();
       res.json(newUser);
@@ -149,7 +147,11 @@ router.patch("/update/password/:id", async (req, res) => {
     const updatedUser = await user.save();
     res.json(updatedUser);
   } catch (error) {
-    res.status(500).json({ message: error.message, status: "error" });
+    res.status(500).json({
+      message: error.message,
+      message: "Error in posting ",
+      status: "error",
+    });
   }
 });
 
@@ -204,16 +206,11 @@ async function SignupValidation(req, res, next) {
       });
   }
 
-  // password validation
-  const password = req.body.password;
-  const password_regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,20}$/;
-  if (!password_regex.test(password))
-    return res.status(400).json({
-      message: "Password is not valid",
-      status: "error",
-    });
-
-  // check if password and confirm password are same
+  // check password is not null
+  if (req.body.password == null)
+    return res
+      .status(400)
+      .json({ message: "Password is required", status: "error" });
 
   next();
 }

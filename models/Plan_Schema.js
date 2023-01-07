@@ -45,5 +45,8 @@ const PlanSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  plan_duration: {
+    type: String,
+  },
 });
 module.exports = mongoose.model("plans", PlanSchema);

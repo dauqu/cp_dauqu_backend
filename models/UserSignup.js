@@ -37,6 +37,24 @@ const user_sehema = new mongoose.Schema({
     type: String,
     // reqired: true,
   },
+  plan: {
+    type: String,
+  },
+  plan_duration: {
+    type: String,
+  },
+  plan_start_date: {
+    type: String,
+  },
+  plan_expiry_date: {
+    type: String,
+  },
+  plan_price: {
+    type: Number,
+  },
+  plan_slug: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("users", user_sehema);

@@ -36,6 +36,13 @@ async function resiter_validation(req, res, next) {
         status: "warning",
       });
 
+    // check password is not null
+    if (password == null)
+      return res.status(400).json({
+        message: "Please enter password",
+        status: "warning",
+      });
+
     // check password is less than 6 char
     if (password.length < 6)
       return res.status(400).json({
