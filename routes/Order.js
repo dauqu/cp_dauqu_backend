@@ -26,10 +26,24 @@ router.get("/:slug", async (req, res) => {
   }
 });
 
+// route get order by userUniqueKey
+router.get("/userUniqueKey/:userUniqueKey", async (req, res) => {
+  try {
+    const order = await order_schema.find({userUniqueKey: req.params.userUniqueKey,});
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({message: "error in getting order by userUniqueKey", status: "error"})
+  }
+});
+
 // route to post order
 router.post("/", async (req, res) => {
   //   res.json({ message: "Posting Orders API" });
-  console.log(req.body);
+  let month = req.body?.months;
+
+  const currDate = Date.now();
+  const tomili = month * 28 * 24 * 60 * 60 * 1000;
+
   try {
     const order = new order_schema({
       order_id: req.body.order_id,
@@ -44,11 +58,13 @@ router.post("/", async (req, res) => {
       city: req.body.city,
       country: req.body.country,
       order_status: req.body.order_status,
-      uniqueKey: req.body.uniqueKey,
+      userUniqueKey: req.body.userUniqueKey,
+      plan_expiry_date: currDate + tomili,
     });
     const newOrder = await order.save();
-    res.json(newOrder);
-    res.status(201).json({ message: "order posted", status: "success" });
+    res
+      .status(201)
+      .json({ message: "order posted", status: "success", newOrder });
   } catch (error) {
     console.log(error);
     res

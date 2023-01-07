@@ -195,16 +195,7 @@ async function SignupValidation(req, res, next) {
       status: "error",
     });
 
-  //Check Phone Number is valid
-  if (req.body.phone) {
-    const phone = req.body.phone;
-    const phone_regex = /^[0-9]{10}$/;
-    if (!phone_regex.test(phone))
-      return res.status(400).json({
-        message: "Phone Number is not valid",
-        status: "error",
-      });
-  }
+   
 
   // check password is not null
   if (req.body.password == null)

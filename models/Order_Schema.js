@@ -46,14 +46,20 @@ const Order_Schema = new mongoose.Schema(
     country: {
       type: String,
     },
+    userUniqueKey: {
+      type: String,
+      required: true,
+    },
     order_status: {
       type: String,
     },
     plan_start_date: {
-      type: String,
+      type: Date,
+      default: Date.now,
+      required: true,
     },
     plan_expiry_date: {
-      type: String,
+      type: Date,
     },
     plan_duration: {
       type: String,
