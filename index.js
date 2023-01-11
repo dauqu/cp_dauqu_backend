@@ -53,7 +53,10 @@ app.use("/api/plans", require("./routes/Plans"));
 
 // orders api
 app.use("/api/orders", require("./routes/Order"));
-// image upload
+
+// razor pay instance order api 
+  app.use("/api/payment",require("./routes/payment"));
+
 
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT}`);
