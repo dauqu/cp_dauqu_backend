@@ -13,6 +13,20 @@ router.get("/", async (req, res) => {
       .json({ message: "error in getting order", status: "error" });
   }
 });
+
+// route to get order by id
+router.get("/:id", async (req, res) => {
+  //   res.json({ message: "Getting Orders API" });
+  try {
+    const order = await order_schema.findById(req.params.id);
+    res.json(order);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "error in getting order", status: "error" });
+  }
+});
+
 // get order by slug
 router.get("/:slug", async (req, res) => {
   //   res.json({ message: "Getting Orders API" });
@@ -29,10 +43,15 @@ router.get("/:slug", async (req, res) => {
 // route get order by userUniqueKey
 router.get("/userUniqueKey/:userUniqueKey", async (req, res) => {
   try {
-    const order = await order_schema.find({userUniqueKey: req.params.userUniqueKey,});
+    const order = await order_schema.find({
+      userUniqueKey: req.params.userUniqueKey,
+    });
     res.json(order);
   } catch (error) {
-    res.status(500).json({message: "error in getting order by userUniqueKey", status: "error"})
+    res.status(500).json({
+      message: "error in getting order by userUniqueKey",
+      status: "error",
+    });
   }
 });
 
@@ -70,6 +89,18 @@ router.post("/", async (req, res) => {
     res
       .status(500)
       .json({ message: "error in posting order", status: "error" });
+  }
+});
+
+// code to delete order by id
+router.delete("/:id", async (req, res) => {
+  try {
+    const order = await order_schema.findByIdAndDelete(req.params.id);
+    res.json({ message: "order deleted", status: "success", order });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "error in deleting order", status: "error" });
   }
 });
 

@@ -5,13 +5,13 @@ const Order_Schema = new mongoose.Schema(
   {
     order_id: {
       type: String,
-      required: true,
-      unique: true,
+      // required: true,
+      // unique: true,
       uppercase: true,
     },
     order_by: {
       type: String,
-      required: true,
+      // required: true,
     },
     date: {
       type: Date,
@@ -48,7 +48,7 @@ const Order_Schema = new mongoose.Schema(
     },
     userUniqueKey: {
       type: String,
-      required: true,
+      // required: true,
     },
     order_status: {
       type: String,
@@ -64,6 +64,9 @@ const Order_Schema = new mongoose.Schema(
     plan_duration: {
       type: String,
     },
+    payment_method: {
+      type: String,
+    }
   },
   { timestamps: true }
 );
