@@ -20,7 +20,7 @@ app.get('/', async (req, res) => {
         });
 
         const options = {
-            amount: 5000, // amount in smallest currency unit
+            amount: 2000, // amount in smallest currency unit
             currency: "INR",
             receipt: "receipt_order_74394",
         };

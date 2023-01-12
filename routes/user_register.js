@@ -36,6 +36,16 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+// route to get user by unique key
+router.get("/uniquekey/:uniqueKey", async (req, res) => {
+  try {
+    const user = await User_Schema.findOne({ uniqueKey: req.params.uniqueKey });
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: "error in getting user", status: "error" });
+  }
+});
+
 //  update user by id from database
 router.patch("/update/user/:id", async (req, res) => {
   try {
@@ -194,8 +204,6 @@ async function SignupValidation(req, res, next) {
       message: "Username is not valid",
       status: "error",
     });
-
-   
 
   // check password is not null
   if (req.body.password == null)
