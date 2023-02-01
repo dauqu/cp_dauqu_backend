@@ -21,6 +21,7 @@ const allowedOrigins = [
   "http://localhost:4001",
   "http://localhost:4000",
   "https://cp-dauqu-frontend.vercel.app",
+  "https://dauqu.com"
 ];
 
 //CORS policy access
